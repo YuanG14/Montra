@@ -1,6 +1,7 @@
+import { useState } from 'react';
 import { money, r2, monthly, nextRenewal } from './lib/utils.js';
-import { CATEGORIES } from './lib/data.js';
-import { SubCard, AddTile, Pill, CYCW, info } from './components.jsx';
+import { CATEGORIES, SERVICES } from './lib/data.js';
+import { SubCard, AddTile, Pill, Tile, CYCW, info } from './components.jsx';
 
 function tip(act, cur) {
   const g = {};
@@ -87,7 +88,7 @@ export function Overview({ subs, set, A }) {
                 {[1, 3, 7].map(n => <option key={n} value={n}>{n} day{n > 1 ? 's' : ''} before</option>)}
               </select>
             </label>
-            <p className="mu sm">Your choice is saved. In-app alerts arrive in the next phase.</p>
+            <p className="mu sm">Due renewals show under the bell at the top. Free trials and yearly plans get at least 7 days.</p>
           </section>
         </div>
       </div>
@@ -120,6 +121,29 @@ export function Cards({ subs, set, f, setF, A }) {
         {list.map(s => <SubCard key={s.id} s={s} cur={set.currency} A={A} />)}
         <AddTile A={A} />
         {!list.length && <p className="mu none">No subscriptions match these filters.</p>}
+      </div>
+    </>
+  );
+}
+
+export function GuidePage({ subs, A }) {
+  const [q, setQ] = useState('');
+  const mine = new Set(subs.map(s => s.name.toLowerCase()));
+  const list = SERVICES.filter(x => x.name.toLowerCase().includes(q.toLowerCase()));
+  return (
+    <>
+      <div className="sec"><h1 className="h1s">Cancel guide</h1></div>
+      <p className="mu" style={{ marginBottom: 16 }}>Short steps for popular services. Menus change, so treat these as a map, not a promise.</p>
+      <div className="tools"><input type="search" placeholder="Search services" aria-label="Search services" value={q} onChange={e => setQ(e.target.value)} /></div>
+      <div className="grid">
+        {list.map(x => (
+          <article className="sub" key={x.name} style={{ '--c': x.color }}>
+            <div className="top"><Tile s={x} /><h3>{x.name}</h3>{mine.has(x.name.toLowerCase()) && <span className="pill pur">You have this</span>}</div>
+            <p className="note">{x.category}</p>
+            <div className="acts" style={{ justifyContent: 'flex-start' }}><button className="btn ghost" onClick={() => A.guide(x.name)}>How to cancel</button></div>
+          </article>
+        ))}
+        {!list.length && <p className="mu none">Not in the guide yet. Add the subscription and paste its cancel link in the form.</p>}
       </div>
     </>
   );

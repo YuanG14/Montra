@@ -22,3 +22,8 @@ Other commands: `npm run build` (production build into `dist/`), `npm run previe
 
 ## Next phases
 4: cancel guide + in-app reminders - 5: bank CSV import - 6: Node + MongoDB backend - 7: login - 8: email notifications
+
+## Phase 4 additions
+- Cancel guide tab: short steps for 18 popular services, with account links where they are long-standing. The steps are from general knowledge, so spot-check them and edit `src/lib/cancel.js` if a service changes.
+- "How to cancel" is also in each card's menu. The Add/Edit form has an optional "Cancel link" for any service.
+- Bell icon in the header: renewals due within your reminder window (free trials and yearly plans get at least 7 days). "Dismiss" hides one renewal until the next billing date.

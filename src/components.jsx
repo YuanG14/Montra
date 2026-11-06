@@ -36,6 +36,7 @@ function Menu({ s, A }) {
       <summary aria-label={`Options for ${s.name}`}>&#8943;</summary>
       <div className="mi">
         <button onClick={go(() => A.edit(s.id))}>Edit</button>
+        <button onClick={go(() => A.cancel(s.id))}>How to cancel</button>
         <button onClick={go(() => A.status(s.id, s.status === 'paused' ? 'active' : 'paused'))}>{s.status === 'paused' ? 'Resume' : 'Pause'}</button>
         <button onClick={go(() => A.status(s.id, s.status === 'cancelled' ? 'active' : 'cancelled'))}>{s.status === 'cancelled' ? 'Reactivate' : 'Mark as cancelled'}</button>
         <button className="danger" onClick={go(() => A.del(s.id))}>Delete</button>
