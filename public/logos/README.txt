@@ -1,0 +1,1 @@
+Drop logo files here named after the service, e.g. netflix.svg, spotify.svg, disney.svg (use the service name in lowercase, spaces become dashes: youtube-premium.svg). A logo replaces the colored initial automatically.
