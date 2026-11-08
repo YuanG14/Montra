@@ -4,9 +4,10 @@ import { SERVICES } from './lib/data.js';
 import { iso, today } from './lib/utils.js';
 import { cap } from './components.jsx';
 import { Overview, Cards, GuidePage } from './pages.jsx';
+import CalendarPage from './CalendarPage.jsx';
+import InsightsPage from './InsightsPage.jsx';
 import { dueSoon } from './lib/reminders.js';
 import { FormDialog, SettingsDialog, RemindersDialog, CancelDialog } from './Dialogs.jsx';
-import ImportPage from './pages/ImportPage.jsx';
 
 async function seed() {
   const t = today(), d = n => iso(new Date(t.getFullYear(), t.getMonth(), t.getDate() + n));
@@ -50,7 +51,7 @@ export default function App() {
     remind: async n => { await store.setSettings({ remind: n }); await refresh(); toast('Reminder timing saved'); }
   };
 
-  const view = hash === '#/cards' ? 'cards' : hash === '#/guide' ? 'guide' : hash === '#/import' ? 'import' : 'overview';
+  const view = hash === '#/cards' ? 'cards' : hash === '#/guide' ? 'guide' : hash === '#/calendar' ? 'calendar' : hash === '#/insights' ? 'insights' : 'overview';
   const items = dueSoon(subs, set.remind, dismissed);
   const close = () => setDlg(null);
   return (
@@ -62,7 +63,8 @@ export default function App() {
             <a href="#/overview" aria-current={view === 'overview' ? 'page' : undefined}>Overview</a>
             <a href="#/cards" aria-current={view === 'cards' ? 'page' : undefined}>Cards</a>
             <a href="#/guide" aria-current={view === 'guide' ? 'page' : undefined}>Cancel guide</a>
-            <a href="#/import" aria-current={view === 'import' ? 'page' : undefined}>Import</a>
+            <a href="#/calendar" aria-current={view === 'calendar' ? 'page' : undefined}>Calendar</a>
+            <a href="#/insights" aria-current={view === 'insights' ? 'page' : undefined}>Insights</a>
           </nav>
           <div className="right">
             <button className="ib bell" onClick={A.reminders} aria-label={`Reminders, ${items.length} due`}>
@@ -73,7 +75,7 @@ export default function App() {
             <button className="btn" onClick={A.add}>+ Add</button>
           </div>
         </header>
-        <main>{ready && (view === 'cards' ? <Cards subs={subs} set={set} f={f} setF={setF} A={A} /> : view === 'guide' ? <GuidePage subs={subs} A={A} /> : view === 'import' ? <ImportPage /> : <Overview subs={subs} set={set} A={A} />)}</main>
+        <main>{ready && (view === 'cards' ? <Cards subs={subs} set={set} f={f} setF={setF} A={A} /> : view === 'guide' ? <GuidePage subs={subs} A={A} /> : view === 'calendar' ? <CalendarPage subs={subs} set={set} A={A} /> : view === 'insights' ? <InsightsPage subs={subs} set={set} A={A} /> : <Overview subs={subs} set={set} A={A} />)}</main>
       </div>
       {dlg && dlg.t === 'form' && <FormDialog key={dlg.id || 'new'} sub={dlg.id ? subs.find(s => s.id === dlg.id) : null} onSave={A.save} onClose={close} />}
       {dlg && dlg.t === 'settings' && <SettingsDialog set={set} onSave={A.saveSettings} onClose={close} />}
