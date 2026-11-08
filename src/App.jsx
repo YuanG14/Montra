@@ -6,6 +6,7 @@ import { cap } from './components.jsx';
 import { Overview, Cards, GuidePage } from './pages.jsx';
 import CalendarPage from './CalendarPage.jsx';
 import InsightsPage from './InsightsPage.jsx';
+import LandingPage from './LandingPage.jsx';
 import { dueSoon } from './lib/reminders.js';
 import { FormDialog, SettingsDialog, RemindersDialog, CancelDialog } from './Dialogs.jsx';
 
@@ -51,14 +52,16 @@ export default function App() {
     remind: async n => { await store.setSettings({ remind: n }); await refresh(); toast('Reminder timing saved'); }
   };
 
-  const view = hash === '#/cards' ? 'cards' : hash === '#/guide' ? 'guide' : hash === '#/calendar' ? 'calendar' : hash === '#/insights' ? 'insights' : 'overview';
+  const view = !hash || ['#/home', '#top', '#features', '#how-it-works'].includes(hash) ? 'landing' : hash === '#/cards' ? 'cards' : hash === '#/guide' ? 'guide' : hash === '#/calendar' ? 'calendar' : hash === '#/insights' ? 'insights' : 'overview';
   const items = dueSoon(subs, set.remind, dismissed);
   const close = () => setDlg(null);
+  if (view === 'landing') return <LandingPage />;
+
   return (
     <>
       <div className="wrap">
         <header className="bar">
-          <a className="logo" href="#/overview"><i>M</i>Montra</a>
+          <a className="logo" href="#/home"><i>M</i>Montra</a>
           <nav className="tabs" aria-label="Main">
             <a href="#/overview" aria-current={view === 'overview' ? 'page' : undefined}>Overview</a>
             <a href="#/cards" aria-current={view === 'cards' ? 'page' : undefined}>Cards</a>

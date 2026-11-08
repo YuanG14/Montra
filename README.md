@@ -1,6 +1,6 @@
 # Montra — Subscription tracker
 
-Version 0.10.0 — Insights & Analytics
+Version 0.12.0 — Shared UI Design System
 
 Montra is a React + Vite subscription tracker focused on helping people keep track of recurring subscriptions, understand their spending, and remember upcoming renewals. Subscription data is stored locally in the browser in this release.
 
@@ -16,6 +16,9 @@ Preview a production build: `npm run preview`
 Run core utility tests: `npm test`
 
 ## Current features
+
+- Public landing page with product overview, feature highlights, how-it-works steps and calls to action. The dashboard remains available separately at `#/overview`.
+- Shared UI design system with semantic color, spacing, radius and shadow tokens; consistent controls, cards, dialogs, focus states and responsive refinements.
 
 - Overview: monthly and yearly subscription totals, budget ring, upcoming renewals and overlap tip.
 - Cards: search, filter, sort, add, edit, pause, cancel and delete subscriptions.
@@ -60,3 +63,12 @@ The in-app calendar displays active weekly, monthly and yearly renewal dates. Se
 ## Phase 6 — Insights & Analytics
 
 The Insights page summarizes active subscriptions using normalized monthly-equivalent costs. It includes monthly/yearly projections, category spending, budget utilization, highest recurring costs, billing frequency and an estimate of renewals due in the next 30 days. These are projections based on the user-entered prices and cycles, not actual bank transactions or payment history.
+
+## Phase 7 — Public Landing Page
+
+The public landing page is the default entry point when no app hash is present. Its calls to action open the existing local subscription tracker at `#/overview`. The landing page is responsive and does not change the local subscription storage format or add backend dependencies.
+
+
+## Phase 8 — UI Consistency & Design System
+
+This phase establishes shared visual tokens for color, spacing, radii and elevation, then applies consistent styling to the dashboard navigation, buttons, icon controls, subscription cards, panels, form fields, menus, dialogs, calendar controls and insight panels. Hover, focus-visible, disabled and reduced-motion states are included. No subscription data structure, localStorage key, routing behavior or backend dependency is changed.
