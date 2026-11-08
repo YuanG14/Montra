@@ -18,7 +18,7 @@ export function Overview({ subs, set, A }) {
     return (
       <section className="empty">
         <h1>Start with one subscription</h1>
-        <p>Add what you pay for each month. Subtrack shows what is due next and what it all adds up to.</p>
+        <p>Add what you pay for each month. Montra shows what is due next and what it all adds up to.</p>
         <div className="acts"><button className="btn" onClick={A.add}>Add a subscription</button><button className="btn ghost" onClick={A.seed}>Load sample data</button></div>
       </section>
     );

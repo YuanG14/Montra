@@ -1,29 +1,70 @@
-# Subtrack (React + Vite)
+# Montra — Subscription tracker
+
+Montra is a React + Vite subscription tracker. Subscription data remains in the browser in this release. CSV statement import and normalization run locally in the browser and do not upload raw statement contents.
 
 ## Run it
-1. `npm install`
-2. `npm run dev`
-3. Open the address it prints (usually http://localhost:5173)
 
-Other commands: `npm run build` (production build into `dist/`), `npm run preview`.
+1. Install Node.js (LTS recommended).
+2. In this folder, run `npm install`.
+3. Run `npm run dev`.
+4. Open the local address Vite prints (usually `http://localhost:5173`).
 
-## What works
-- Overview: monthly and yearly totals, budget ring, upcoming renewals, overlap tip
-- Cards: search, filter, sort, add, edit, pause, cancel, delete
-- Settings (gear icon): currency, monthly budget, reminder timing
-- "Load sample data" on the empty screen for a quick demo
-- Data is saved in your browser (localStorage), per address
+Production build: `npm run build`  
+Preview a production build: `npm run preview`  
+Run import utility tests: `npm test`
 
-## Where things are
-- `src/lib/store.js`: the only file that touches storage. The backend phase swaps this for API calls.
-- `src/lib/utils.js`: dates, money, renewal math. `src/lib/data.js`: popular services and categories.
-- `src/pages.jsx`: Overview and Cards. `src/components.jsx`: card, tile, menu. `src/Dialogs.jsx`: add/edit and settings.
-- `public/logos/`: drop logo files here (e.g. `netflix.svg`, `youtube-premium.svg`) to replace the colored initials.
+## Current features
 
-## Next phases
-4: cancel guide + in-app reminders - 5: bank CSV import - 6: Node + MongoDB backend - 7: login - 8: email notifications
+- Overview: monthly and yearly totals, budget ring, upcoming renewals and overlap tip.
+- Cards: search, filter, sort, add, edit, pause, cancel and delete subscriptions.
+- Cancel guide: cancellation guidance for popular services.
+- Reminders: in-app renewal reminders and reminder timing settings.
+- CSV import: local file upload, delimiter and encoding handling, background parsing, header detection, transaction preview, column mapping, date and amount normalization, debit/credit direction handling, merchant cleanup, exact-duplicate flagging and rejected-row review.
+- Currency, monthly budget and reminder settings.
 
-## Phase 4 additions
-- Cancel guide tab: short steps for 18 popular services, with account links where they are long-standing. The steps are from general knowledge, so spot-check them and edit `src/lib/cancel.js` if a service changes.
-- "How to cancel" is also in each card's menu. The Add/Edit form has an optional "Cancel link" for any service.
-- Bell icon in the header: renewals due within your reminder window (free trials and yearly plans get at least 7 days). "Dismiss" hides one renewal until the next billing date.
+## Phase 6 — transaction mapping and normalization
+
+After a CSV is previewed, users can map its columns to Montra's standard fields:
+
+- Transaction date
+- Description / merchant
+- Amount, or separate Debit and Credit columns
+- Currency (optional; PHP is the default)
+- Transaction type, reference and balance (optional)
+
+Montra then standardizes dates and amounts, identifies money-in / money-out direction where the statement provides enough information, cleans obvious reference codes from merchant descriptions, flags exact duplicate rows and separates rows that cannot be normalized. Ambiguous date formats can be explicitly set to MDY or DMY. Positive signed amounts without a transaction-type field are left as unknown direction rather than guessed.
+
+This phase prepares data only. It does not save imported transactions or create subscriptions. Merchant recognition and recurring-payment detection are later phases.
+
+## CSV import privacy
+
+The CSV importer processes the statement in the browser. The original file and parsed transaction rows are not sent to a server and are not written to localStorage. Parsing runs in a browser worker where supported. The import session exists only in React memory and is cleared when the user removes the file or leaves the page.
+
+Limits: `.csv` files up to 15 MB and 100,000 rows. The importer detects comma, semicolon, tab and pipe delimiters. Account-like columns are masked in the preview when their headers are recognizable. Review the original statement and remove unnecessary personal information before importing.
+
+A fictional sample file is included at `examples/sample-transactions.csv` for testing. It contains no real account data.
+
+## Data compatibility
+
+Existing subscription data remains under the original localStorage key `subtrack.v1` so the Montra rebrand does not discard existing browser data. Clearing browser site data will still erase locally stored subscriptions.
+
+## Project structure
+
+- `src/App.jsx`: app shell and navigation.
+- `src/pages.jsx`: Overview, Cards and Cancel Guide.
+- `src/pages/ImportPage.jsx`: CSV import, mapping and normalization experience.
+- `src/lib/store.js`: browser storage abstraction; future backend work will replace this layer.
+- `src/lib/import/`: CSV parsing, decoding, validation, column mapping, normalization and temporary import session helpers.
+- `src/lib/utils.js`: date, currency and renewal calculations.
+- `src/Dialogs.jsx`: add/edit, settings, reminders and cancellation dialogs.
+- `tests/`: Node.js tests for mapping and normalization utilities.
+- `public/logos/`: optional service logos.
+
+## Current limitations
+
+- No bank connections or automatic statement fetching.
+- No dedicated BPI, BDO, GCash or Maya import templates yet (Phase 7).
+- Merchant catalog and recurring-payment detection are not implemented yet (Phases 8–9).
+- Normalized transactions are not persisted or added to subscriptions.
+- No backend, MongoDB, user accounts or cloud sync yet.
+- Reminders appear only while the app is open.
