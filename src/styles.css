@@ -362,3 +362,200 @@ button,.btn,.ib,.calendar-nav{ -webkit-tap-highlight-color:transparent }
 @media(prefers-reduced-motion:reduce){
   .tabs,.sub,.calendar-day,.btn,.ib{scroll-behavior:auto;transition:none!important}
 }
+
+
+/* Phase 12 — persistent appearance preferences and dark theme */
+.settings-hint{margin-top:7px;font-size:11px;line-height:1.5}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#111018;--card:#1B1924;--bd:#34303F;--tx:#F0EDF7;--mu:#AAA4B8;--ac:#A18AFF;--acs:#302A43;--r:20px;
+}
+:root[data-theme="dark"] body{
+  background:radial-gradient(900px 500px at -5% -10%,rgba(105,78,170,.18),transparent 60%),radial-gradient(800px 500px at 105% 0,rgba(94,65,145,.14),transparent 55%),var(--bg);
+  color:var(--tx);
+}
+:root[data-theme="dark"] .bar{background:rgba(27,25,36,.9);border-color:var(--bd)}
+:root[data-theme="dark"] .tabs a[aria-current=page]{background:#493B70;color:#F5F1FF}
+:root[data-theme="dark"] .btn.ghost,:root[data-theme="dark"] .ib,:root[data-theme="dark"] .menu summary{background:#302A43;color:#D9D0FF}
+:root[data-theme="dark"] .panel,:root[data-theme="dark"] .dashboard-stat,:root[data-theme="dark"] .dashboard-hero>.spend-summary,:root[data-theme="dark"] .dashboard-date,:root[data-theme="dark"] .insight-metric,:root[data-theme="dark"] .insight-panel{
+  background:#1B1924;border-color:var(--bd);color:var(--tx);box-shadow:0 12px 30px -22px rgba(0,0,0,.8)
+}
+:root[data-theme="dark"] .dashboard-hero>.spend-summary{background:linear-gradient(115deg,#1E1B29,#191722)}
+:root[data-theme="dark"] .sub,:root[data-theme="dark"] .sub-card,:root[data-theme="dark"] .subscription-card{
+  background:linear-gradient(180deg,color-mix(in srgb,var(--c) 15%,#1B1924),#1B1924 58%);border-color:var(--bd);color:var(--tx)
+}
+:root[data-theme="dark"] .sub.dim{background:linear-gradient(180deg,#211F29,#191722)}
+:root[data-theme="dark"] input,:root[data-theme="dark"] select,:root[data-theme="dark"] textarea{
+  background:#15131C;color:var(--tx);border-color:#454052;color-scheme:dark
+}
+:root[data-theme="dark"] dialog{background:#1B1924;color:var(--tx);border:1px solid #393444}
+:root[data-theme="dark"] dialog::backdrop{background:rgba(0,0,0,.68)}
+:root[data-theme="dark"] dialog .acts{background:#1B1924}
+:root[data-theme="dark"] .mi{background:#211E2A;border-color:var(--bd);box-shadow:0 16px 30px -10px rgba(0,0,0,.65)}
+:root[data-theme="dark"] .mi button:hover,:root[data-theme="dark"] .chip:hover{background:#302A43}
+:root[data-theme="dark"] .chip,:root[data-theme="dark"] .service-chip{background:#211E2A;border-color:#403A4D;color:var(--tx)}
+:root[data-theme="dark"] .service-chip.selected{background:#302A43;border-color:#8570C4;color:#E5DCFF;box-shadow:inset 0 0 0 1px #65548F}
+:root[data-theme="dark"] .form-preview{background:#211E2A;border-color:#393444}
+:root[data-theme="dark"] .form-section,:root[data-theme="dark"] .dialog-heading{border-color:var(--bd)}
+:root[data-theme="dark"] .subscription-form label,:root[data-theme="dark"] .field-caption{color:#C4BDCF}
+:root[data-theme="dark"] .tile.logo{background:#F8F7FA!important}
+:root[data-theme="dark"] .calendar-panel,:root[data-theme="dark"] .calendar-side .panel{background:#1B1924;border-color:var(--bd)}
+:root[data-theme="dark"] .calendar-day{border-color:#373242}
+:root[data-theme="dark"] .calendar-day:hover{background:#262231}
+:root[data-theme="dark"] .calendar-day.selected{background:#302A43;box-shadow:inset 0 0 0 2px #8F79D0}
+:root[data-theme="dark"] .calendar-nav{background:#302A43;border-color:#49415A;color:#DDD4F8}
+:root[data-theme="dark"] .dashboard-date{background:#211E2A}
+:root[data-theme="dark"] .tip{background:linear-gradient(135deg,#302943,#242031);color:#F0EDF7}
+:root[data-theme="dark"] .tip p,:root[data-theme="dark"] .tip>b{color:#D8CCFF}
+:root[data-theme="dark"] .form-error{background:#3B2029;color:#FFB8C3}
+:root[data-theme="dark"] .status-chip.is-paused{background:#40351F;color:#F5D58B}
+:root[data-theme="dark"] .status-chip.is-cancelled{background:#40252D;color:#F0AAB8}
+:root[data-theme="dark"] .red{background:#40252D;color:#FFB6C2}
+:root[data-theme="dark"] .amb{background:#40351F;color:#F5D58B}
+:root[data-theme="dark"] .grn{background:#1E3B2D;color:#A6E5BE}
+:root[data-theme="dark"] .pur{background:#302A43;color:#D9D0FF}
+:root[data-theme="dark"] .good{color:#8AD5A7}:root[data-theme="dark"] .bad{color:#FF9EAE}
+:root[data-theme="dark"] .dashboard-kicker,:root[data-theme="dark"] .dialog-eyebrow{color:#B5A4EF}
+:root[data-theme="dark"] .dashboard-section-title>a,:root[data-theme="dark"] .text-action,:root[data-theme="dark"] .insight-link{color:#B6A5FF}
+:root[data-theme="dark"] .stat-icon{background:#302A43;color:#D9D0FF}
+:root[data-theme="dark"] #toast{background:#F0EDF7;color:#17141F}
+:root[data-theme="dark"] .add{border-color:#554879;color:#C9BCFF}
+:root[data-theme="dark"] .add:hover{background:#242031}
+:root[data-theme="dark"] .form-preview .tile{color:#fff}
+@media(prefers-reduced-motion:reduce){:root[data-theme="dark"] *{transition:none!important}}
+
+
+/* Phase 12 refinement — direct light/dark mode toggles */
+.appearance-setting{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:13px 0;margin:4px 0 14px;border-bottom:1px solid var(--bd)}
+.appearance-setting b{display:block;font-size:13px}
+.appearance-setting .settings-hint{margin:3px 0 0}
+.switch-control{width:48px;height:28px;flex:0 0 48px;border:0;border-radius:999px;padding:3px;background:#D8D4E1;cursor:pointer;display:flex;align-items:center;transition:background .18s ease}
+.switch-control span{display:block;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px #0002;transition:transform .18s ease}
+.switch-control.is-on{background:#6C47FF}
+.switch-control.is-on span{transform:translateX(20px)}
+.switch-control:focus-visible{outline:3px solid #A99AE8;outline-offset:3px}
+.theme-toggle{font-size:20px;line-height:1}
+:root[data-theme="dark"] .appearance-setting{border-color:var(--bd)}
+:root[data-theme="dark"] .switch-control{background:#514B5E}
+:root[data-theme="dark"] .switch-control.is-on{background:#8B72E8}
+@media(prefers-reduced-motion:reduce){.switch-control,.switch-control span{transition:none}}
+
+
+/* Calendar dark-mode contrast and surface refinement */
+:root[data-theme="dark"] .calendar-panel {
+  background: #1b1924;
+  border-color: #373242;
+}
+:root[data-theme="dark"] .calendar-weekdays > div {
+  color: #bdb5d0;
+}
+:root[data-theme="dark"] .calendar-day {
+  background: #211f2a;
+  color: #e8e3f1;
+  border-color: #393445;
+}
+:root[data-theme="dark"] .calendar-day .day-number {
+  color: #e8e3f1;
+}
+:root[data-theme="dark"] .calendar-day.outside {
+  background: #191721;
+  color: #817b90;
+}
+:root[data-theme="dark"] .calendar-day.outside .day-number {
+  color: #817b90;
+}
+:root[data-theme="dark"] .calendar-day:hover {
+  background: #292536;
+}
+:root[data-theme="dark"] .calendar-day.selected {
+  background: #39314f;
+  box-shadow: inset 0 0 0 2px #9b85e8;
+}
+:root[data-theme="dark"] .calendar-day.selected .day-number {
+  color: #fff;
+}
+:root[data-theme="dark"] .calendar-day.today:not(.selected) .day-number {
+  background: #8b70e8;
+  color: #fff;
+}
+:root[data-theme="dark"] .calendar-event {
+  background: #39304f;
+  color: #d9ceff;
+}
+:root[data-theme="dark"] .calendar-more {
+  color: #bdb5d0;
+}
+:root[data-theme="dark"] .calendar-legend {
+  color: #bdb5d0;
+}
+:root[data-theme="dark"] .calendar-nav {
+  background: #302a43;
+  border-color: #514765;
+  color: #e3d9ff;
+}
+:root[data-theme="dark"] .calendar-nav:hover {
+  background: #40365a;
+}
+:root[data-theme="dark"] .calendar-toolbar .btn.ghost {
+  background: #302a43;
+  border-color: #514765;
+  color: #e3d9ff;
+}
+:root[data-theme="dark"] .calendar-toolbar .btn.ghost:hover {
+  background: #40365a;
+}
+
+/* Phase 13 — restrained motion and interaction feedback */
+@keyframes montra-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes montra-dialog-in {
+  from { opacity: 0; transform: translateY(10px) scale(.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes montra-backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* A brief entrance cue helps establish hierarchy without delaying interaction. */
+main > * { animation: montra-enter .28s cubic-bezier(.2,.7,.25,1) both; }
+main .panel, main .dashboard-stat, main .sub, main .insight-metric {
+  animation: montra-enter .32s cubic-bezier(.2,.7,.25,1) both;
+}
+main .grid > :nth-child(2) { animation-delay: 25ms; }
+main .grid > :nth-child(3) { animation-delay: 50ms; }
+main .grid > :nth-child(4) { animation-delay: 75ms; }
+main .grid > :nth-child(5) { animation-delay: 100ms; }
+
+button, a, .sub, .panel, .tile, .calendar-day, .menu summary, .chip, input, select {
+  -webkit-tap-highlight-color: transparent;
+}
+button:not(:disabled) { transition: background-color .16s ease, border-color .16s ease, color .16s ease, box-shadow .16s ease, transform .16s ease, filter .16s ease; }
+button:not(:disabled):active { transform: translateY(1px) scale(.985); }
+.btn:not(:disabled):active, .ib:not(:disabled):active { box-shadow: inset 0 1px 2px rgba(20,15,40,.12); }
+.tile { transition: transform .18s ease, box-shadow .18s ease; }
+.sub:hover .tile { transform: scale(1.045); }
+.menu[open] .mi { transform-origin: top right; animation: montra-enter .14s ease-out both; }
+.menu summary { transition: background-color .16s ease, color .16s ease, transform .16s ease; }
+.menu summary:active { transform: scale(.94); }
+.calendar-day:active { transform: scale(.985); }
+input:focus, select:focus, textarea:focus { transition: border-color .16s ease, box-shadow .16s ease; }
+#toast.on { animation: montra-enter .2s ease-out both; }
+dialog[open] { animation: montra-dialog-in .2s cubic-bezier(.2,.7,.25,1) both; }
+dialog[open]::backdrop { animation: montra-backdrop-in .18s ease-out both; }
+
+:root[data-theme="dark"] .tile { box-shadow: 0 1px 0 rgba(255,255,255,.04); }
+:root[data-theme="dark"] button:not(:disabled):active { filter: brightness(.94); }
+
+@media (prefers-reduced-motion: reduce) {
+  main > *, main .panel, main .dashboard-stat, main .sub, main .insight-metric,
+  .menu[open] .mi, #toast.on, dialog[open], dialog[open]::backdrop {
+    animation: none !important;
+  }
+  button:not(:disabled), .tile, .menu summary, .calendar-day, input, select, textarea {
+    transition: none !important;
+  }
+  button:not(:disabled):active, .calendar-day:active, .menu summary:active { transform: none; }
+}

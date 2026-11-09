@@ -1,6 +1,6 @@
 # Montra — Subscription tracker
 
-Version 0.15.0 — Responsive & Mobile Experience
+Version 0.17.0 — Animations & Micro-interactions
 
 Montra is a React + Vite subscription tracker focused on helping people keep track of recurring subscriptions, understand their spending, and remember upcoming renewals. Subscription data is stored locally in the browser in this release.
 
@@ -26,7 +26,7 @@ Run core utility tests: `npm test`
 - Calendar: monthly renewal calendar, selected-day details and upcoming renewal list.
 - Insights: monthly and annual recurring-spend estimates, category breakdown, budget usage, highest recurring costs and billing-frequency mix.
 - Reminders: in-app renewal reminders and reminder timing settings.
-- Settings: currency, monthly budget and reminder preferences.
+- Settings: currency, monthly budget, reminder timing and a persistent Light/Dark toggle. A quick theme toggle is also available in the top navigation.
 
 ## Data compatibility
 
@@ -53,7 +53,7 @@ Existing subscription data remains under the original localStorage key `subtrack
 - No bank connections, statement uploads or transaction importing.
 - No backend, MongoDB, user accounts or cloud sync yet.
 - Reminders appear only while the app is open.
-- Backup/restore, dark mode and external notifications remain planned features. Insights are estimates from entered subscription data, not actual payment history.
+- Backup/restore, external notifications remain planned features. Insights are estimates from entered subscription data, not actual payment history.
 
 ## Phase 5 — Calendar & Renewal Management
 
@@ -87,3 +87,13 @@ Subscription cards now use a clearer hierarchy for service identity, category, p
 ## Phase 11 — Responsive & Mobile Experience
 
 The app shell and primary navigation now adapt to compact screens with a horizontally scrollable top navigation, while cards, filters, insights, calendar panels and dashboard summaries reflow for phone and tablet widths. Form dialogs use viewport-aware sizing and scrolling, calendar cells become more compact on narrow phones, and interactive controls retain touch-friendly target sizes. These changes are CSS-only and preserve existing routes, subscription data, and the `subtrack.v1` localStorage key.
+
+
+## Phase 12 — Dark Mode & User Preferences
+
+Settings now includes Light, Dark and Use device setting appearance choices. The preference is saved with existing settings in the current localStorage record, and System mode follows operating-system appearance changes. Dark styling covers the application shell, dashboard, cards, forms, dialogs, calendar, insights and common controls. The existing `subtrack.v1` storage key and subscription data format remain unchanged. See `PHASE-12-DARK-MODE-USER-PREFERENCES-CHECKLIST.md` for manual checks.
+
+
+## Phase 13 — Animations & Micro-interactions
+
+This phase adds restrained entrance motion, subtle press and hover feedback, menu/toast/dialog transitions, and reduced-motion fallbacks. The effects are designed to remain quick and unobtrusive, work in both themes, and respect the operating system accessibility preference. No subscription data, storage key, route, or dependency changes are introduced. See `PHASE-13-ANIMATIONS-MICROINTERACTIONS-CHECKLIST.md` for verification notes.

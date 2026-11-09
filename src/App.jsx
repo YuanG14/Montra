@@ -34,7 +34,23 @@ export default function App() {
     window.addEventListener('hashchange', h);
     return () => window.removeEventListener('hashchange', h);
   }, []);
+  useEffect(() => {
+    const root = document.documentElement;
+    const apply = () => {
+      const preference = set.theme || 'system';
+      const dark = preference === 'dark' || (preference === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      root.dataset.theme = dark ? 'dark' : 'light';
+      root.style.colorScheme = dark ? 'dark' : 'light';
+    };
+    apply();
+    const media = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+    if (media && media.addEventListener) media.addEventListener('change', apply);
+    return () => { if (media && media.removeEventListener) media.removeEventListener('change', apply); };
+  }, [set.theme]);
   const toast = m => { setMsg(m); clearTimeout(timer.current); timer.current = setTimeout(() => setMsg(''), 2200); };
+  const systemDark = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const isDark = set.theme === 'dark' || ((set.theme || 'system') === 'system' && systemDark);
+  const toggleTheme = async () => { const theme = isDark ? 'light' : 'dark'; await store.setSettings({ theme }); await refresh(); toast(`${theme === 'dark' ? 'Dark' : 'Light'} mode enabled`); };
 
   const A = {
     add: () => setDlg({ t: 'form' }),
@@ -70,6 +86,9 @@ export default function App() {
             <a href="#/insights" aria-current={view === 'insights' ? 'page' : undefined}>Insights</a>
           </nav>
           <div className="right">
+            <button className="ib theme-toggle" onClick={toggleTheme} aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`} title={`Switch to ${isDark ? 'light' : 'dark'} mode`} aria-pressed={isDark}>
+              {isDark ? '☀' : '☾'}
+            </button>
             <button className="ib bell" onClick={A.reminders} aria-label={`Reminders, ${items.length} due`}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z" /><path d="M10 21h4" /></svg>
               {items.length > 0 && <span className="badge">{items.length}</span>}

@@ -130,3 +130,51 @@ test('responsive stylesheet includes compact calendar, filters and reduced-motio
   assert.match(css, /\.tools\{grid-template-columns:1fr/);
   assert.match(css, /@media\(prefers-reduced-motion:reduce\)/);
 });
+
+
+test('appearance preference supports light, dark and system defaults without changing storage key', () => {
+  const store = readFileSync(new URL('../src/lib/store.js', import.meta.url), 'utf8');
+  const app = readFileSync(new URL('../src/App.jsx', import.meta.url), 'utf8');
+  const dialogs = readFileSync(new URL('../src/Dialogs.jsx', import.meta.url), 'utf8');
+  assert.match(store, /const KEY = 'subtrack\.v1'/);
+  assert.match(store, /theme: 'system'/);
+  assert.match(app, /prefers-color-scheme: dark/);
+  assert.match(dialogs, /role="switch"/);
+  assert.match(dialogs, /aria-checked=\{darkEnabled\}/);
+  assert.match(dialogs, /toggleAppearance/);
+  assert.match(app, /theme-toggle/);
+  assert.match(app, /store\.setSettings\(\{ theme \}\)/);
+});
+
+test('theme toggle has visible focus, motion-aware styling and dark-state feedback', () => {
+  const css = readFileSync(new URL('../src/styles.css', import.meta.url), 'utf8');
+  assert.match(css, /\.switch-control:focus-visible/);
+  assert.match(css, /\.switch-control\.is-on/);
+  assert.match(css, /@media\(prefers-reduced-motion:reduce\)/);
+});
+
+test('dark theme defines accessible surfaces and form controls', () => {
+  const css = readFileSync(new URL('../src/styles.css', import.meta.url), 'utf8');
+  assert.match(css, /:root\[data-theme="dark"\]/);
+  assert.match(css, /color-scheme:dark/);
+  assert.match(css, /:root\[data-theme="dark"\] dialog/);
+  assert.match(css, /:root\[data-theme="dark"\] input/);
+});
+
+test('phase 13 adds subtle motion, interaction feedback and reduced-motion fallbacks', () => {
+  const css = readFileSync(new URL('../src/styles.css', import.meta.url), 'utf8');
+  assert.match(css, /@keyframes montra-enter/);
+  assert.match(css, /@keyframes montra-dialog-in/);
+  assert.match(css, /button:not\(:disabled\):active/);
+  assert.match(css, /dialog\[open\]/);
+  assert.match(css, /prefers-reduced-motion:\s*reduce/);
+  assert.match(css, /animation:\s*none\s*!important/);
+});
+
+test('phase 13 keeps animation styling scoped to UI and preserves dark-mode styling', () => {
+  const css = readFileSync(new URL('../src/styles.css', import.meta.url), 'utf8');
+  assert.match(css, /main \.sub/);
+  assert.match(css, /:root\[data-theme="dark"\] button:not\(:disabled\):active/);
+  const store = readFileSync(new URL('../src/lib/store.js', import.meta.url), 'utf8');
+  assert.match(store, /subtrack\.v1/);
+});

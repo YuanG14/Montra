@@ -7,7 +7,7 @@ const ST = {};
   const write = d => localStorage.setItem(KEY, JSON.stringify(d));
   const get = () => {
     const d = read();
-    return { subs: d.subs || [], dismissed: d.dismissed || [], settings: Object.assign({ currency: 'PHP', budget: 0, remind: 3 }, d.settings) };
+    return { subs: d.subs || [], dismissed: d.dismissed || [], settings: Object.assign({ currency: 'PHP', budget: 0, remind: 3, theme: 'system' }, d.settings) };
   };
   const uid = () => (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2);
   ST.store = {

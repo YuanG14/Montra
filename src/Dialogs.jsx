@@ -84,11 +84,18 @@ export function FormDialog({ sub, onSave, onClose }) {
 export function SettingsDialog({ set, onSave, onClose }) {
   const [v, setV] = useState(set);
   const on = k => e => setV({ ...v, [k]: e.target.value });
-  const submit = e => { e.preventDefault(); onSave({ currency: v.currency, budget: parseFloat(v.budget) || 0, remind: +v.remind }); };
+  const systemDark = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const darkEnabled = v.theme === 'dark' || ((v.theme || 'system') === 'system' && systemDark);
+  const toggleAppearance = () => setV({ ...v, theme: darkEnabled ? 'light' : 'dark' });
+  const submit = e => { e.preventDefault(); onSave({ currency: v.currency, budget: parseFloat(v.budget) || 0, remind: +v.remind, theme: v.theme || 'system' }); };
   return (
     <Modal onClose={onClose}>
       <form onSubmit={submit}>
         <h2>Settings</h2>
+        <div className="appearance-setting">
+          <div><b>Dark mode</b><p className="settings-hint mu sm">Turn on a darker appearance across Montra.</p></div>
+          <button type="button" className={'switch-control' + (darkEnabled ? ' is-on' : '')} role="switch" aria-checked={darkEnabled} aria-label="Dark mode" onClick={toggleAppearance}><span /></button>
+        </div>
         <label>Currency<select value={v.currency} onChange={on('currency')}>{['PHP', 'USD', 'EUR', 'GBP', 'JPY', 'INR', 'SGD', 'AUD'].map(x => <option key={x}>{x}</option>)}</select></label>
         <label>Monthly budget (0 means no budget)<input type="number" min="0" step="1" value={v.budget} onChange={on('budget')} /></label>
         <label>Remind me
