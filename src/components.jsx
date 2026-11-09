@@ -12,13 +12,13 @@ export function Pill({ days }) {
 }
 
 // Brand-colored initial. A logo at public/logos/<name>.svg replaces it automatically.
-export function Tile({ s }) {
+export function Tile({ s, size = 'normal' }) {
   const [logo, setLogo] = useState(false);
   const [bad, setBad] = useState(false);
   return (
-    <span className={'tile' + (logo ? ' logo' : '')} style={{ background: s.color, color: ink(s.color) }}>
-      {s.name[0].toUpperCase()}
-      {!bad && <img src={`/logos/${slug(s.name)}.svg`} alt="" onLoad={() => setLogo(true)} onError={() => setBad(true)} />}
+    <span aria-hidden="true" className={'tile' + (logo ? ' logo' : '') + (size === 'large' ? ' tile-large' : '')} style={{ background: s.color || '#6C47FF', color: ink(s.color || '#6C47FF') }}>
+      {(s.name || '?')[0].toUpperCase()}
+      {!bad && <img src={`/logos/${slug(s.name || '')}.svg`} alt="" onLoad={() => setLogo(true)} onError={() => setBad(true)} />}
     </span>
   );
 }
@@ -49,19 +49,27 @@ export function SubCard({ s, cur, A }) {
   const on = s.status === 'active';
   const { d, days } = info(s);
   return (
-    <article className={'sub' + (on ? '' : ' dim')} style={{ '--c': s.color }}>
-      <div className="top">
+    <article className={'sub' + (on ? '' : ' dim')} style={{ '--c': s.color || '#6C47FF' }} aria-label={`${s.name}, ${s.status} subscription`}>
+      <div className="sub-card-head">
         <Tile s={s} />
-        <h3>{s.name}</h3>
+        <div className="sub-card-title">
+          <h3>{s.name}</h3>
+          <span className="sub-category">{s.category || 'Other'}</span>
+        </div>
         {s.trial && <span className="pill pur">Trial</span>}
         <Menu s={s} A={A} />
       </div>
-      <div className="bot">
-        <div className="price">{money(s.cost, cur)}<small> /{CYC[s.cycle]}</small></div>
-        <div className="ren">{on ? <>Renews<br /><b>{fmt(d)}</b></> : <b>{cap(s.status)}</b>}</div>
+      <div className="sub-card-price-row">
+        <div className="price-block">
+          <span className="price-label">{on ? 'Subscription cost' : 'Last recorded cost'}</span>
+          <div className="price">{money(s.cost, cur)}<small> / {CYC[s.cycle] || 'mo'}</small></div>
+        </div>
+        <div className="ren">{on ? <><span>Next renewal</span><b>{fmt(d)}</b></> : <><span>Status</span><b className={'status-text ' + (s.status === 'cancelled' ? 'cancelled' : 'paused')}>{cap(s.status || 'active')}</b></>}</div>
       </div>
-      {on && <Pill days={days} />}
-      {s.notes && <p className="note">{s.notes}</p>}
+      <div className="sub-card-foot">
+        {on ? <Pill days={days} /> : <span className={'status-chip ' + (s.status === 'cancelled' ? 'is-cancelled' : 'is-paused')}>{cap(s.status || 'active')}</span>}
+        {s.notes && <p className="note">{s.notes}</p>}
+      </div>
     </article>
   );
 }

@@ -1,6 +1,6 @@
 # Montra — Subscription tracker
 
-Version 0.12.0 — Shared UI Design System
+Version 0.14.0 — Subscription Cards & Dialog Refinement
 
 Montra is a React + Vite subscription tracker focused on helping people keep track of recurring subscriptions, understand their spending, and remember upcoming renewals. Subscription data is stored locally in the browser in this release.
 
@@ -72,3 +72,13 @@ The public landing page is the default entry point when no app hash is present. 
 ## Phase 8 — UI Consistency & Design System
 
 This phase establishes shared visual tokens for color, spacing, radii and elevation, then applies consistent styling to the dashboard navigation, buttons, icon controls, subscription cards, panels, form fields, menus, dialogs, calendar controls and insight panels. Hover, focus-visible, disabled and reduced-motion states are included. No subscription data structure, localStorage key, routing behavior or backend dependency is changed.
+
+
+## Phase 9 — Dashboard Redesign & Visual Polish
+
+The Overview page now has a clearer dashboard hierarchy: a page heading with the current date, a prominent monthly-spend summary with its yearly equivalent, compact counts for active subscriptions, renewals due within 30 days and paused subscriptions, and a more clearly labeled upcoming-renewals panel with a direct calendar link. The existing budget indicator, subscription cards, smart tip and reminder controls remain available. All figures are calculated from existing local subscription data; no schema, storage key, routing or backend behavior was changed.
+
+
+## Phase 10 — Subscription Cards, Forms & Modal Improvements
+
+Subscription cards now use a clearer hierarchy for service identity, category, price, billing cycle, renewal date and status. Paused and cancelled subscriptions have distinct status treatments, while trials and notes remain visible. The add/edit form is organized into basic and optional details, includes popular-service quick picks, a live brand tile preview, selectable brand colors and clearer inline validation. The existing subscription fields, status behavior, localStorage key and data format are preserved.

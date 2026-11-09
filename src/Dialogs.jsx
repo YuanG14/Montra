@@ -12,42 +12,70 @@ function Modal({ onClose, children }) {
 
 const blank = () => ({ name: '', cost: '', cycle: 'monthly', nextDate: iso(today()), category: 'Entertainment', trial: false, notes: '', cancelUrl: '', color: '#6C47FF' });
 
+const BRAND_COLORS = ['#6C47FF', '#E50914', '#1DB954', '#113CCF', '#00A8E1', '#FA243C', '#3693F5', '#4285F4', '#D83B01', '#7D2AE8', '#10A37F', '#2B2B2B'];
+
 export function FormDialog({ sub, onSave, onClose }) {
   const [v, setV] = useState(sub || blank());
-  const on = k => e => setV({ ...v, [k]: e.target.type === 'checkbox' ? e.target.checked : e.target.value });
+  const [error, setError] = useState('');
+  const on = k => e => {
+    setV({ ...v, [k]: e.target.type === 'checkbox' ? e.target.checked : e.target.value });
+    if (error) setError('');
+  };
+  const choose = x => { setV({ ...v, name: x.name, category: x.category, color: x.color }); setError(''); };
   const submit = e => {
     e.preventDefault();
-    const cost = parseFloat(v.cost);
-    if (!v.name.trim() || !(cost >= 0)) return;
-    onSave({ ...v, name: v.name.trim(), cost, notes: (v.notes || '').trim() }, sub && sub.id);
+    const cost = Number(v.cost);
+    if (!v.name.trim()) return setError('Enter a subscription name to continue.');
+    if (v.cost === '' || !Number.isFinite(cost) || cost < 0) return setError('Enter a valid cost of zero or more.');
+    if (!v.nextDate) return setError('Choose the next renewal date.');
+    onSave({ ...v, name: v.name.trim(), cost, notes: (v.notes || '').trim(), color: v.color || '#6C47FF' }, sub && sub.id);
   };
   return (
     <Modal onClose={onClose}>
-      <form onSubmit={submit}>
-        <h2>{sub ? 'Edit subscription' : 'Add subscription'}</h2>
+      <form className="subscription-form" onSubmit={submit}>
+        <div className="dialog-heading">
+          <div className="dialog-heading-copy">
+            <span className="dialog-eyebrow">SUBSCRIPTION DETAILS</span>
+            <h2>{sub ? 'Edit subscription' : 'Add a subscription'}</h2>
+            <p className="mu sm">{sub ? 'Update the details you want Montra to track.' : 'Keep the price and renewal date in one place.'}</p>
+          </div>
+          <div className="form-preview"><Tile s={{ name: v.name || '?', color: v.color }} size="large" /></div>
+        </div>
         {!sub && (
-          <>
-            <p className="mu sm">Pick a popular one or fill it in yourself.</p>
+          <section className="form-section service-picker">
+            <div className="form-section-title"><b>Quick add</b><span className="mu sm">Popular services</span></div>
             <div className="chipbox">
-              {SERVICES.map(x => <button type="button" className="chip" key={x.name} onClick={() => setV({ ...v, name: x.name, category: x.category, color: x.color })}>{x.name}</button>)}
+              {SERVICES.map(x => <button type="button" className={'chip service-chip' + (v.name === x.name ? ' selected' : '')} key={x.name} aria-pressed={v.name === x.name} onClick={() => choose(x)}><span className="service-chip-dot" style={{ background: x.color }} />{x.name}</button>)}
             </div>
-          </>
+          </section>
         )}
-        <label>Name<input required maxLength="60" value={v.name} onChange={on('name')} /></label>
-        <div className="row">
-          <label>Cost<input type="number" min="0" step="0.01" required value={v.cost} onChange={on('cost')} /></label>
-          <label>Billing
-            <select value={v.cycle} onChange={on('cycle')}><option value="weekly">Weekly</option><option value="monthly">Monthly</option><option value="yearly">Yearly</option></select>
-          </label>
-        </div>
-        <div className="row">
-          <label>Next renewal<input type="date" required value={v.nextDate} onChange={on('nextDate')} /></label>
-          <label>Category<select value={v.category} onChange={on('category')}>{CATEGORIES.map(c => <option key={c}>{c}</option>)}</select></label>
-        </div>
-        <label className="chk"><input type="checkbox" checked={!!v.trial} onChange={on('trial')} /> This is a free trial</label>
-        <label>Notes (optional)<input maxLength="120" value={v.notes || ''} onChange={on('notes')} /></label>
-        <label>Cancel link (optional)<input type="url" placeholder="https://" value={v.cancelUrl || ''} onChange={on('cancelUrl')} /></label>
-        <div className="acts"><button type="button" className="btn ghost" onClick={onClose}>Cancel</button><button className="btn">Save</button></div>
+        <section className="form-section">
+          <div className="form-section-title"><b>Basic information</b><span className="mu sm">Required</span></div>
+          <label>Subscription name<input autoFocus required maxLength="60" placeholder="e.g. Netflix" value={v.name} onChange={on('name')} /></label>
+          <div className="row">
+            <label>Cost<input type="number" min="0" step="0.01" required placeholder="0.00" value={v.cost} onChange={on('cost')} /></label>
+            <label>Billing cycle<select value={v.cycle} onChange={on('cycle')}><option value="weekly">Weekly</option><option value="monthly">Monthly</option><option value="yearly">Yearly</option></select></label>
+          </div>
+          <div className="row">
+            <label>Next renewal<input type="date" required value={v.nextDate} onChange={on('nextDate')} /></label>
+            <label>Category<select value={v.category} onChange={on('category')}>{CATEGORIES.map(c => <option key={c}>{c}</option>)}</select></label>
+          </div>
+          <div className="brand-color-field">
+            <span className="field-caption">Brand color</span>
+            <div className="color-options" role="group" aria-label="Choose subscription color">
+              {BRAND_COLORS.map(color => <button key={color} type="button" className={'color-swatch' + (v.color === color ? ' selected' : '')} style={{ '--swatch': color }} aria-label={`Use ${color}`} aria-pressed={v.color === color} onClick={() => setV({ ...v, color })} />)}
+              <label className="custom-color"><span>Custom</span><input type="color" aria-label="Custom brand color" value={v.color || '#6C47FF'} onChange={on('color')} /></label>
+            </div>
+          </div>
+        </section>
+        <section className="form-section optional-section">
+          <div className="form-section-title"><b>Extra details</b><span className="mu sm">Optional</span></div>
+          <label className="trial-toggle"><input type="checkbox" checked={!!v.trial} onChange={on('trial')} /><span><b>Free trial</b><small className="mu">Mark this if the next date is when your trial ends.</small></span></label>
+          <label>Notes<input maxLength="120" placeholder="Anything you want to remember" value={v.notes || ''} onChange={on('notes')} /></label>
+          <label>Cancellation link<input type="url" placeholder="https://" value={v.cancelUrl || ''} onChange={on('cancelUrl')} /></label>
+        </section>
+        {error && <p className="form-error" role="alert">{error}</p>}
+        <div className="acts form-actions"><button type="button" className="btn ghost" onClick={onClose}>Cancel</button><button className="btn" type="submit">{sub ? 'Save changes' : 'Add subscription'}</button></div>
       </form>
     </Modal>
   );

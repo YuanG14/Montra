@@ -31,13 +31,20 @@ export function Overview({ subs, set, A }) {
   const t = tip(act, cur);
   return (
     <>
-      <section className="hero">
+      <div className="dashboard-heading">
         <div>
-          <p className="mu">{new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}: this month you spend</p>
+          <p className="dashboard-kicker">YOUR SUBSCRIPTION SPACE</p>
+          <h1 className="dashboard-title">Overview</h1>
+          <p className="mu">A clear picture of what you pay for and what’s coming next.</p>
+        </div>
+        <span className="dashboard-date">{new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</span>
+      </div>
+      <section className="hero dashboard-hero">
+        <div className="spend-summary">
+          <p className="mu">Estimated monthly spend</p>
           <h1>{money(m, cur)}</h1>
           <div className="chips2">
-            <span className="pill pur">{act.length} active</span>
-            <span className="pill pur">{money(r2(m * 12), cur)} a year</span>
+            <span className="pill pur">{money(r2(m * 12), cur)} yearly equivalent</span>
             {week > 0 && <span className="pill red">{week} due this week</span>}
           </div>
         </div>
@@ -62,11 +69,25 @@ export function Overview({ subs, set, A }) {
           )}
         </div>
       </section>
-      <div className="sec"><h2>Your subscriptions</h2><a className="mu" href="#/cards">View all</a></div>
+      <section className="dashboard-stats" aria-label="Subscription summary">
+        <article className="dashboard-stat">
+          <span className="stat-icon">↗</span>
+          <div><p className="mu">Active subscriptions</p><strong>{act.length}</strong><small>Currently being tracked</small></div>
+        </article>
+        <article className="dashboard-stat">
+          <span className="stat-icon">◷</span>
+          <div><p className="mu">Renewing in 30 days</p><strong>{up.filter(x => x.days <= 30).length}</strong><small>Upcoming charges</small></div>
+        </article>
+        <article className="dashboard-stat">
+          <span className="stat-icon">Ⅱ</span>
+          <div><p className="mu">Paused</p><strong>{subs.filter(s => s.status === 'paused').length}</strong><small>Not included in spend</small></div>
+        </article>
+      </section>
+      <div className="sec dashboard-section-title"><div><h2>Your subscriptions</h2><p className="mu sm">The next services scheduled to renew</p></div><a className="mu" href="#/cards">View all →</a></div>
       <div className="grid">{up.slice(0, 5).map(x => <SubCard key={x.s.id} s={x.s} cur={cur} A={A} />)}<AddTile A={A} /></div>
-      <div className="two">
-        <section className="panel">
-          <h2>Coming up</h2>
+      <div className="two dashboard-lower">
+        <section className="panel renewal-panel">
+          <div className="panel-heading"><div><h2>Upcoming renewals</h2><p className="mu sm">Your next scheduled subscription charges</p></div><a href="#/calendar" className="text-action">Open calendar</a></div>
           {up.length ? (
             <ul className="tl">
               {up.slice(0, 4).map(x => (

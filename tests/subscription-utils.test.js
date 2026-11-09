@@ -91,3 +91,23 @@ test('insights exclude cancelled subscriptions and invalid costs', () => {
   assert.equal(result.activeCount, 1);
   assert.equal(result.monthlyTotal, 25);
 });
+
+import { readFileSync } from 'node:fs';
+
+test('subscription card and form refinements preserve the existing data contract', () => {
+  const components = readFileSync(new URL('../src/components.jsx', import.meta.url), 'utf8');
+  const dialogs = readFileSync(new URL('../src/Dialogs.jsx', import.meta.url), 'utf8');
+  const store = readFileSync(new URL('../src/lib/store.js', import.meta.url), 'utf8');
+  assert.match(components, /sub-card-price-row/);
+  assert.match(components, /sub-category/);
+  assert.match(components, /aria-label=\{`Options for \$\{s\.name\}`\}/);
+  assert.match(dialogs, /BRAND_COLORS/);
+  assert.match(dialogs, /form-error/);
+  assert.match(dialogs, /cancelUrl/);
+  assert.match(store, /subtrack\.v1/);
+});
+
+test('subscription form keeps trial and recurring billing fields', () => {
+  const dialogs = readFileSync(new URL('../src/Dialogs.jsx', import.meta.url), 'utf8');
+  for (const field of ['trial', 'nextDate', 'cycle', 'category', 'notes', 'cancelUrl']) assert.ok(dialogs.includes(field), `missing ${field}`);
+});
