@@ -267,3 +267,98 @@ a:not(.btn):not(.logo):not(.lp-logo):hover{color:#5F45C6}
   .subscription-form .row{gap:9px}.form-section{padding:14px 0 12px}.form-actions .btn{min-width:0!important;flex:1}
 }
 @media(prefers-reduced-motion:reduce){.sub{transition:none}}
+
+/* Phase 11 — responsive and touch-friendly experience */
+html{scroll-padding-top:16px}
+.wrap{width:100%;min-width:0;overflow-x:clip}
+.bar,.bar>*{min-width:0}
+.tabs{min-width:0;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.tabs::-webkit-scrollbar{display:none}
+button,.btn,.ib,.calendar-day,.calendar-nav,.chip,.text-action{touch-action:manipulation}
+button,.btn,.ib,.calendar-nav{ -webkit-tap-highlight-color:transparent }
+.btn,.ib,.calendar-nav,.text-action,.chip{min-height:40px}
+.calendar-day{min-height:88px}
+
+@media(max-width:900px){
+  .wrap{padding-left:18px;padding-right:18px}
+  .bar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:9px 12px;border-radius:18px;padding:11px 13px}
+  .bar>.logo{grid-column:1;grid-row:1}
+  .bar>.right{grid-column:2;grid-row:1;margin:0}
+  .bar>.tabs{grid-column:1/-1;grid-row:2;width:100%;order:initial;padding:2px 0 1px;gap:4px;overflow-x:auto;overscroll-behavior-x:contain}
+  .tabs a{flex:none;padding:9px 13px;font-size:13px}
+  .tabs a[aria-current=page]{background:var(--acs);color:#5F45C6}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .calendar-layout{grid-template-columns:minmax(0,1fr)}
+  .calendar-side{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:680px){
+  .wrap{padding:10px 13px 38px}
+  .bar{margin-bottom:22px}
+  .logo{font-size:16px}
+  .logo i{width:29px;height:29px}
+  .right{gap:6px}
+  .right .ib{width:38px;height:38px}
+  .right .btn{min-height:38px;padding:8px 13px}
+  .grid{grid-template-columns:minmax(0,1fr);gap:11px}
+  .two,.insights-grid{grid-template-columns:minmax(0,1fr)}
+  .calendar-side{grid-template-columns:minmax(0,1fr)}
+  .tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .tools input{grid-column:1/-1;min-width:0;width:100%}
+  .tools select{width:100%;min-width:0}
+  .insight-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .dashboard-stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .dashboard-stat{align-items:flex-start;flex-direction:column;gap:8px;padding:12px}
+  .dashboard-stat strong{font-size:21px}
+  .dashboard-stat p{font-size:10px}
+  .dashboard-stat small{font-size:9px}
+  .calendar-heading{align-items:flex-start;gap:12px}
+  .calendar-heading>.btn{white-space:nowrap;padding:9px 12px;font-size:12px}
+  .calendar-panel{padding:10px}
+  .calendar-day{min-height:68px;padding:4px 2px;gap:3px}
+  .day-events{gap:2px}
+  .calendar-event{font-size:8px;padding:2px 2px}
+  .calendar-weekdays>div{font-size:10px;padding:6px 1px}
+  .month-nav h2{min-width:0;font-size:17px}
+  .month-nav{gap:5px}
+  .calendar-toolbar{gap:7px}
+  .calendar-nav{width:36px;height:36px;flex:none}
+  .calendar-legend{flex-wrap:wrap}
+  .period-switch{width:100%}
+  .period-switch button{flex:1;padding:9px 8px}
+  .empty{margin:6vh auto}
+  .empty h1{font-size:36px}
+  .empty .acts{flex-wrap:wrap}
+  dialog{width:calc(100vw - 20px)!important;max-width:540px;max-height:calc(100dvh - 20px);overflow-y:auto;overscroll-behavior:contain;padding:19px!important;margin:auto}
+  dialog .acts{position:sticky;bottom:-19px;background:#fff;padding:12px 0 2px;margin-top:14px}
+  .subscription-form .row{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .chipbox{max-height:120px}
+}
+@media(max-width:390px){
+  .wrap{padding-left:10px;padding-right:10px}
+  .bar{padding:9px 10px;gap:8px}
+  .tabs a{font-size:12px;padding:8px 10px}
+  .right .btn{padding:8px 10px}
+  .dashboard-stats{grid-template-columns:1fr;gap:8px}
+  .dashboard-stat{flex-direction:row;align-items:center;padding:11px 12px}
+  .dashboard-stat .stat-icon{width:34px;height:34px}
+  .dashboard-stat strong{font-size:20px}
+  .tools{grid-template-columns:1fr}
+  .tools input{grid-column:auto}
+  .insight-metrics{gap:7px}
+  .insight-metric{padding:11px}
+  .calendar-day{min-height:58px}
+  .calendar-event{font-size:0;width:6px;height:6px;padding:0;border-radius:50%;display:inline-block}
+  .calendar-day .day-events{display:flex;flex-wrap:wrap;gap:3px;padding:2px 1px}
+  .calendar-toolbar .btn{padding:7px 9px}
+  .subscription-form .row{grid-template-columns:1fr;gap:0}
+  .form-actions{gap:7px}
+  .form-actions .btn{padding:10px 9px;font-size:12px}
+}
+@media(hover:none){
+  .sub:hover{transform:none;box-shadow:var(--shadow-sm)}
+  .tabs a:hover:not([aria-current=page]),.chip:hover,.calendar-day:hover{background:inherit}
+  .tabs a[aria-current=page]{background:var(--acs);color:#5F45C6}
+}
+@media(prefers-reduced-motion:reduce){
+  .tabs,.sub,.calendar-day,.btn,.ib{scroll-behavior:auto;transition:none!important}
+}

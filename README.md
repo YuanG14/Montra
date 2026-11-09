@@ -1,6 +1,6 @@
 # Montra — Subscription tracker
 
-Version 0.14.0 — Subscription Cards & Dialog Refinement
+Version 0.15.0 — Responsive & Mobile Experience
 
 Montra is a React + Vite subscription tracker focused on helping people keep track of recurring subscriptions, understand their spending, and remember upcoming renewals. Subscription data is stored locally in the browser in this release.
 
@@ -82,3 +82,8 @@ The Overview page now has a clearer dashboard hierarchy: a page heading with the
 ## Phase 10 — Subscription Cards, Forms & Modal Improvements
 
 Subscription cards now use a clearer hierarchy for service identity, category, price, billing cycle, renewal date and status. Paused and cancelled subscriptions have distinct status treatments, while trials and notes remain visible. The add/edit form is organized into basic and optional details, includes popular-service quick picks, a live brand tile preview, selectable brand colors and clearer inline validation. The existing subscription fields, status behavior, localStorage key and data format are preserved.
+
+
+## Phase 11 — Responsive & Mobile Experience
+
+The app shell and primary navigation now adapt to compact screens with a horizontally scrollable top navigation, while cards, filters, insights, calendar panels and dashboard summaries reflow for phone and tablet widths. Form dialogs use viewport-aware sizing and scrolling, calendar cells become more compact on narrow phones, and interactive controls retain touch-friendly target sizes. These changes are CSS-only and preserve existing routes, subscription data, and the `subtrack.v1` localStorage key.

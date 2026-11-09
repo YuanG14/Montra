@@ -111,3 +111,22 @@ test('subscription form keeps trial and recurring billing fields', () => {
   const dialogs = readFileSync(new URL('../src/Dialogs.jsx', import.meta.url), 'utf8');
   for (const field of ['trial', 'nextDate', 'cycle', 'category', 'notes', 'cancelUrl']) assert.ok(dialogs.includes(field), `missing ${field}`);
 });
+
+test('responsive phase keeps mobile layout rules and existing app storage intact', () => {
+  const css = readFileSync(new URL('../src/styles.css', import.meta.url), 'utf8');
+  const app = readFileSync(new URL('../src/App.jsx', import.meta.url), 'utf8');
+  const store = readFileSync(new URL('../src/lib/store.js', import.meta.url), 'utf8');
+  assert.match(css, /Phase 11 — responsive and touch-friendly experience/);
+  assert.match(css, /@media\(max-width:390px\)/);
+  assert.match(css, /overscroll-behavior-x:contain/);
+  assert.match(css, /max-height:calc\(100dvh - 20px\)/);
+  assert.match(app, /className="tabs"/);
+  assert.match(store, /subtrack\.v1/);
+});
+
+test('responsive stylesheet includes compact calendar, filters and reduced-motion support', () => {
+  const css = readFileSync(new URL('../src/styles.css', import.meta.url), 'utf8');
+  assert.match(css, /\.calendar-day\{min-height:58px/);
+  assert.match(css, /\.tools\{grid-template-columns:1fr/);
+  assert.match(css, /@media\(prefers-reduced-motion:reduce\)/);
+});
