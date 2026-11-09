@@ -1,6 +1,6 @@
 # Montra — Subscription tracker
 
-Version 0.17.0 — Animations & Micro-interactions
+Version 0.17.1 — Landing Page Reference Match
 
 Montra is a React + Vite subscription tracker focused on helping people keep track of recurring subscriptions, understand their spending, and remember upcoming renewals. Subscription data is stored locally in the browser in this release.
 
@@ -97,3 +97,13 @@ Settings now includes Light, Dark and Use device setting appearance choices. The
 ## Phase 13 — Animations & Micro-interactions
 
 This phase adds restrained entrance motion, subtle press and hover feedback, menu/toast/dialog transitions, and reduced-motion fallbacks. The effects are designed to remain quick and unobtrusive, work in both themes, and respect the operating system accessibility preference. No subscription data, storage key, route, or dependency changes are introduced. See `PHASE-13-ANIMATIONS-MICROINTERACTIONS-CHECKLIST.md` for verification notes.
+
+
+## Landing page reference refinement — 0.17.1
+
+The public landing page has been revised to closely match the supplied centered Montra reference: compact top navigation, centered two-line hero, centered dashboard preview, a three-column feature grid with a fourth card beneath, a full-width how-it-works section with three numbered steps, centered closing call to action, and a minimal footer. The landing page remains responsive and preserves the existing app routes and local subscription data. The public page stays light to match the supplied reference; the in-app Light/Dark/System preference and navigation toggle remain unchanged.
+
+
+## Landing page scale refinement — 0.17.2
+
+The landing page now uses larger typography, a wider and more legible dashboard preview, larger feature cards, more substantial navigation and CTA controls, and increased content width. Vertical padding and section gaps have been tightened so the page feels fuller without changing the reference's centered composition or minimal visual language. Mobile breakpoints retain compact layouts. No application logic, subscription data, routing, or theme preference behavior changed.
